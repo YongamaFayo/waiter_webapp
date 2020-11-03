@@ -1,0 +1,26 @@
+<div>
+    <h1>{{this.waiter}}'s Schedule</h1>
+    <br>
+    <h3>Select shifts to work</h3>
+    <br>
+    <form action="/waiters/{{this.waiter}}" method="post">
+        <input type="checkbox" id="sun" name="day" value="sunday">
+        <label for="sunday"> Sunday</label>
+        <input type="checkbox" id="mon" name="day" value="monday">
+        <label for="monday"> Monday</label>
+        <input type="checkbox" id="tues" name="day" value="tuesday">
+        <label for="tuesday">Tuesday</label>
+        <input type="checkbox" id="wed" name="day" value="wednesday">
+        <label for="wednesday">Wednesday</label>
+        <input type="checkbox" id="thurs" name="day" value="thursday">
+        <label for="thursday">Thursday</label>
+        <input type="checkbox" id="fri" name="day" value="friday">
+        <label for="friday">Friday</label>
+        <input type="checkbox" name="day" id="sat" value="saturday">
+        <label for="saturday">Saturday</label>
+
+        <input type="submit" value="Add Days">
+    </form>
+    <button><a href="/">home</a></button>
+</div>
+

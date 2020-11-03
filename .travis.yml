@@ -1,0 +1,14 @@
+language: node_js
+
+env:
+  - DATABASE_URL=postgresql://postgres@localhost:5432/availability
+
+node_js:
+  - "12.18.3"
+
+before_script:
+  - psql -c 'create database  availability;' -U postgres
+  - psql -U postgres -d availability -a -f availability.sql
+
+services:
+  - postgresql
