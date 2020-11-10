@@ -27,54 +27,49 @@ app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.get("/", async function(req, res){
+app.get("/", async function (req, res) {
     res.render("index")
 })
-app.post("/", async function(req,res){
+app.post("/", async function (req, res) {
     var newWaiter = req.body.name
     await waitersApp.waiter(newWaiter)
     res.render("index")
 })
 
-app.get("/waiters", async function(req, res){
-    const waiters= await waitersApp.getWaiters()
-    res.render("waiters",{
-        list:waiters
+app.get("/waiters", async function (req, res) {
+    const waiters = await waitersApp.getWaiters()
+    res.render("waiters", {
+        list: waiters
     })
 })
 
-app.get("/waiters/:user", async function(req, res){
+app.get("/waiters/:user", async function (req, res) {
     var user = req.params.user
-    const days= await waitersApp.waitersDays(user)
-    res.render("waiter",{
+    const days = await waitersApp.waitersDays(user)
+    res.render("waiter", {
         waiter: user,
         list: days
     })
 })
 
-app.post("/waiters/:user", async function(req, res){
-    var user= req.params.user
+app.post("/waiters/:user", async function (req, res) {
+    var user = req.params.user
     var days = req.body.day
-    const daysList= await waitersApp.waitersDays(user)
+    const daysList = await waitersApp.waitersDays(user)
     //console.log(user)
-    await waitersApp.selectedDay(user,days)
-    res.render("waiter",{
+    await waitersApp.selectedDay(user, days)
+    res.render("waiter", {
         waiter: user,
-        list : daysList
+        list: daysList
     })
 })
 
-// app.get("/waiter/:user", async function(req, res){
-//     var user= req.params.user
-//     const days= await waitersApp.waitersDays(user)
-//     res.render("waiter",{
-//         list: days
-//     })
-// })
 
-app.get("/days", async function(req, res){
-await waitersApp.schedule()
-res.render("days")
+app.get("/days", async function (req, res) {
+    var days = await waitersApp.schedule()
+    res.render("days", {
+        list: days,
+    })
 })
 
 const PORT = process.env.PORT || 3091;
