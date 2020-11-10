@@ -49,7 +49,7 @@ module.exports = function () {
             let names = []
             for(var j = 0; j < lists.rows.length; j++) {
                 name = lists.rows[j].waiters_name
-                console.log(name)
+                //console.log(name)
                 names.push(name)
             }
             list.push({

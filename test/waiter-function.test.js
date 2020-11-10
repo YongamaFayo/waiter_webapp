@@ -60,14 +60,31 @@ describe("waiter availability app", function(){
         await waiterFunction.selectedDay("charl",["monday","tuesday","saturday"])
         await waiterFunction.waiter("charles")
         await waiterFunction.selectedDay("charles",["sunday","tuesday","friday"])
+
+        const results =  await waiterFunction.schedule()
+
+        const result = await pool.query("select count(*) from shifts");
+        const resultz = result.rows[0].count
+
+        assert.equal(resultz,6)
+    })
+
+    it("should be able to reset the database", async () => {
+        await waiterFunction.waiter("charl")
+        await waiterFunction.selectedDay("charl",["monday","tuesday","saturday"])
+        await waiterFunction.waiter("charles")
+        await waiterFunction.selectedDay("charles",["sunday","tuesday","friday"])
         await waiterFunction.waiter("charly")
         await waiterFunction.selectedDay("charly",["sunday","saturday","friday"])
         await waiterFunction.waiter("chark")
         await waiterFunction.selectedDay("chark",["monday","wednsday","thursday"])
 
-        const results =  await waiterFunction.schedule()
+        await waiterFunction.reset()
+        const result = await pool.query("select count(*) from shifts");
+        const results = result.rows[0].count
 
-        assert.equal(results,3)
+        assert.equal(results,0)
+
     })
 
 })
