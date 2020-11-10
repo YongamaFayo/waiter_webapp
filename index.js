@@ -64,12 +64,16 @@ app.post("/waiters/:user", async function (req, res) {
     })
 })
 
-
 app.get("/days", async function (req, res) {
     var days = await waitersApp.schedule()
     res.render("days", {
         list: days,
     })
+})
+
+app.get("/reset", async function (req, res) {
+    await waitersApp.reset()
+    res.render("days")
 })
 
 const PORT = process.env.PORT || 3091;

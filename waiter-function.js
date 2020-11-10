@@ -60,12 +60,18 @@ module.exports = function () {
         return list
     }
 
+    async function reset(){
+        const clear = await pool.query('delete from shifts');
+        return clear.rows
+    }
+
     return {
         waiter,
         getWaiters,
         selectedDay,
         waitersDays,
-        schedule
+        schedule,
+        reset
 
     }
 }
