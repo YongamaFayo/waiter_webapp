@@ -23,4 +23,12 @@
     </form>
     <button><a href="/">home</a></button>
 </div>
+<div>
+    <form action="/waiter/{{this.waiter}}" method="get">
+        <h1>Selected Days</h1>
 
+        {{#each list}}
+            <p>{{weekdays_name}}</p>
+        {{/each}}
+    </form>
+</div>

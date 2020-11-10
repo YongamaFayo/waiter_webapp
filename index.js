@@ -45,17 +45,32 @@ app.get("/waiters", async function(req, res){
 
 app.get("/waiters/:user", async function(req, res){
     var user = req.params.user
-    //console.log(user)
+    const days= await waitersApp.waitersDays(user)
     res.render("waiter",{
-        waiter: user
+        waiter: user,
+        list: days
     })
 })
 
 app.post("/waiters/:user", async function(req, res){
     var user= req.params.user
-    await waitersApp.selectedDay(user,"monday,tuesday,friday")
-    res.render("waiter")
+    var days = req.body.day
+    const daysList= await waitersApp.waitersDays(user)
+    //console.log(user)
+    await waitersApp.selectedDay(user,days)
+    res.render("waiter",{
+        waiter: user,
+        list : daysList
+    })
 })
+
+// app.get("/waiter/:user", async function(req, res){
+//     var user= req.params.user
+//     const days= await waitersApp.waitersDays(user)
+//     res.render("waiter",{
+//         list: days
+//     })
+// })
 
 app.get("/days", async function(req, res){
 await waitersApp.schedule()

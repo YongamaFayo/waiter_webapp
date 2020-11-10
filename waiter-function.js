@@ -23,53 +23,48 @@ module.exports = function () {
     }
 
     async function selectedDay(x, y) {
-        //console.log(x)
-        //console.log(y)
-        //var name = x.split(":")
-        //console.log(x)
-        const nameId = await pool.query(`select id from waiters where waiters = $1`, [x])
-        const personId = nameId.rows[0]
-        //console.log(personId)
-
-        const yc = y.split(",");
-
-        for (let i = 0; i < yc.length; i++) {
-            let day = yc[i]
-            //console.log(day)
-            const dayId = await pool.query(`select id from weekdays where weekdays =$1`, [day])
-            //console.log(dayId.rows[0].id)
-            const actualDayId = dayId.rows[0].id
-            const id = personId
-            await pool.query(`insert into shifts (weekdays_id, waiters_id) values ($1, $2)`, [actualDayId, id])
+        await pool.query(`delete from shifts where waiters_name =$1`,[x])
+        for (let i = 0; i < y.length; i++) {
+            let day = y[i]
+            await pool.query(`insert into shifts (weekdays_name, waiters_name) values ($1, $2)`, [day, x])
         }
+    }
+
+    async function waitersDays(x){
+        const list = await pool.query(`select weekdays_name from shifts where waiters_name = $1`, [x])
+        return list.rows
     }
 
     async function schedule() {
-        const days = await pool.query(`select id from weekdays`)
-        const daysId = days.rows
-        console.log(daysId)
-        const waiters = await pool.query(`select id from waiters`)
-        const waitersId = waiters.rows
-        console.log(waitersId)
-        const schedulesId = await pool.query(`select weekdays_id from shifts`)
-        const schedules = schedulesId.rows
-        console.log(schedules)
+        var days = await pool.query(`select count(*) from weekdays`)
+        const daysId = days.rows[0].count
 
-        for (var i = 0; i < schedules.length; i++) {
-            var dayId = daysId[i]
-            var waiterId = waitersId[i]
-            var scheduleId = schedulesId[i]
-            console.log(dayId)
-            console.log(waiterId)
-            console.log(scheduleId)
+        var dai = await pool.query(`select weekdays from weekdays`)
+        var day = dai.rows
+        let list = []
 
+        for (var i = 0; i < daysId; i++) {
+            var dei = day[i].weekdays
+            var lists = await pool.query(`select waiters_name from shifts where weekdays_name = $1`,[dei])
+            let names = []
+            for(var j = 0; j < lists.rows.length; j++) {
+                name = lists.rows[j].waiters_name
+                console.log(name)
+                names.push(name)
+            }
+            list.push({
+                days:dei,
+                waiters: names
+            }) 
         }
+        return list
     }
-        
+
     return {
         waiter,
         getWaiters,
         selectedDay,
+        waitersDays,
         schedule
 
     }

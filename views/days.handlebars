@@ -2,6 +2,19 @@
     <form action="/days" method="get">
         <h1>Weekly Schedule</h1>
 
+        <table>
+            <tr>
+                <th>Days</th>
+                <th>Waiters</th>
+            </tr>
+            {{#each list}}
+            <tr>
+                <td>{{days}}</td>
+                <td>{{waiters}}</td>
+            </tr>
+            {{/each}}
+        </table>
+
     </form>
     <br>
     <form action="/reset" method="get">

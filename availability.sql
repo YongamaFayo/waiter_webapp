@@ -9,8 +9,8 @@ create table weekdays(
 );
 
 create table shifts(
-    weekdays_id int,
-    foreign key (weekdays_id) references weekdays(id),
-    waiters_id int,
-    foreign key (waiters_id) references waiters(id)
+    weekdays_name text not null,
+    -- foreign key (weekdays_name) references weekdays(weekdays),
+    waiters_name text not null
+    -- foreign key (waiters_name) references waiters(waiters)
 );

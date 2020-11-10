@@ -47,7 +47,7 @@ describe("waiter availability app", function(){
 
     it("should be able to assign a waiter to a specific day", async function(){
         await waiterFunction.waiter("charl")
-        await waiterFunction.selectedDay("charl","monday,tuesday,friday")
+        await waiterFunction.selectedDay("charl",["monday","tuesday","friday"])
 
         const result = await pool.query("select count(*) from shifts");
         const results = result.rows[0].count
@@ -57,15 +57,17 @@ describe("waiter availability app", function(){
 
     it("should be able to return all waiters assigned to specific days", async function(){
         await waiterFunction.waiter("charl")
-        await waiterFunction.selectedDay("charl","monday,tuesday,saturday")
+        await waiterFunction.selectedDay("charl",["monday","tuesday","saturday"])
         await waiterFunction.waiter("charles")
-        await waiterFunction.selectedDay("charles","sunday,tuesday,friday")
+        await waiterFunction.selectedDay("charles",["sunday","tuesday","friday"])
         await waiterFunction.waiter("charly")
-        await waiterFunction.selectedDay("charly","sunday,saturday,friday")
+        await waiterFunction.selectedDay("charly",["sunday","saturday","friday"])
         await waiterFunction.waiter("chark")
-        await waiterFunction.selectedDay("chark","monday,wednsday,thursday")
+        await waiterFunction.selectedDay("chark",["monday","wednsday","thursday"])
 
         const results =  await waiterFunction.schedule()
+
+        assert.equal(results,3)
     })
 
 })
