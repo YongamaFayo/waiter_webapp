@@ -31,8 +31,29 @@ module.exports = function () {
     }
 
     async function waitersDays(x){
+        // lop through the days table whilst assigning  the word checked or unchecked to the array
+        // const lists = await pool.query(`select weekdays_name from shifts where waiters_name = $1`, [x])
+        // var lst= lists.rows
+
+        // var days = await pool.query(`select count(*) from weekdays`)
+        // const daysId = days.rows[0].count
+
+        // var dai = await pool.query(`select weekdays from weekdays`)
+        // var day = dai.rows
+        // let list = []
+        
+        // for(var j = 0; j < daysId; j++) {
+        //     if (lst.includes(day[j])) {
+        //         list.push("checked")
+        //     } else {
+        //         list.push("unchecked")
+        //     }
+        // }
+        // return list
+
         const list = await pool.query(`select weekdays_name from shifts where waiters_name = $1`, [x])
         return list.rows
+
     }
 
     async function schedule() {
@@ -47,14 +68,25 @@ module.exports = function () {
             var dei = day[i].weekdays
             var lists = await pool.query(`select waiters_name from shifts where weekdays_name = $1`,[dei])
             let names = []
+            let colors=""
             for(var j = 0; j < lists.rows.length; j++) {
                 name = lists.rows[j].waiters_name
                 //console.log(name)
                 names.push(name)
             }
+
+            if (names.length > 3) {
+                colors = 'red'
+            } else if (names.length === 3) {
+                colors = 'green'
+            } else {
+                colors = 'orange'
+            }
+
             list.push({
                 days:dei,
-                waiters: names
+                waiters: names,
+                color: colors,
             }) 
         }
         return list

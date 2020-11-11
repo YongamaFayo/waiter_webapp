@@ -1,0 +1,36 @@
+body{
+    background-color: silver;
+}
+
+.container{
+    text-align: center;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+  
+  td,
+  th {
+    padding: 12px 15px;
+  }
+
+ul{
+    list-style: none;
+}
+.red{
+    background-color:red
+}
+.green{
+    background-color:green
+}
+.orange{
+    background-color:orange
+}
