@@ -23,37 +23,28 @@ module.exports = function () {
     }
 
     async function selectedDay(x, y) {
-        await pool.query(`delete from shifts where waiters_name =$1`,[x])
+        await pool.query(`delete from shifts where waiters_name =$1`, [x])
         for (let i = 0; i < y.length; i++) {
             let day = y[i]
             await pool.query(`insert into shifts (weekdays_name, waiters_name) values ($1, $2)`, [day, x])
         }
     }
 
-    async function waitersDays(x){
-        // lop through the days table whilst assigning  the word checked or unchecked to the array
-        // const lists = await pool.query(`select weekdays_name from shifts where waiters_name = $1`, [x])
-        // var lst= lists.rows
+    async function waitersDays(x) {
+        const lists = await pool.query(`select weekdays_name from shifts where waiters_name = $1`, [x])
+        var lst = lists.rows
 
-        // var days = await pool.query(`select count(*) from weekdays`)
-        // const daysId = days.rows[0].count
+        var dai = await pool.query(`select * from weekdays`)
+        var day = dai.rows;
 
-        // var dai = await pool.query(`select weekdays from weekdays`)
-        // var day = dai.rows
-        // let list = []
-        
-        // for(var j = 0; j < daysId; j++) {
-        //     if (lst.includes(day[j])) {
-        //         list.push("checked")
-        //     } else {
-        //         list.push("unchecked")
-        //     }
-        // }
-        // return list
-
-        const list = await pool.query(`select weekdays_name from shifts where waiters_name = $1`, [x])
-        return list.rows
-
+        day.forEach(allDays => {
+            lst.forEach(WaiterDays => {
+                if (WaiterDays.weekdays_name === allDays.weekdays) {
+                    allDays.state="checked"
+                }
+            })
+        })
+         return day
     }
 
     async function schedule() {
@@ -66,10 +57,10 @@ module.exports = function () {
 
         for (var i = 0; i < daysId; i++) {
             var dei = day[i].weekdays
-            var lists = await pool.query(`select waiters_name from shifts where weekdays_name = $1`,[dei])
+            var lists = await pool.query(`select waiters_name from shifts where weekdays_name = $1`, [dei])
             let names = []
-            let colors=""
-            for(var j = 0; j < lists.rows.length; j++) {
+            let colors = ""
+            for (var j = 0; j < lists.rows.length; j++) {
                 name = lists.rows[j].waiters_name
                 //console.log(name)
                 names.push(name)
@@ -84,15 +75,15 @@ module.exports = function () {
             }
 
             list.push({
-                days:dei,
+                days: dei,
                 waiters: names,
                 color: colors,
-            }) 
+            })
         }
         return list
     }
 
-    async function reset(){
+    async function reset() {
         const clear = await pool.query('delete from shifts');
         return clear.rows
     }

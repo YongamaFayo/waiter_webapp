@@ -9,7 +9,6 @@ const waitersApp = WaitersApp()
 
 const session = require('express-session')
 const flash = require('express-flash')
-const waiterFunction = require('./waiter-function')
 
 app.use(session({
     secret: "<add a secret string here>",
@@ -27,12 +26,13 @@ app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.get("/", async function (req, res) {
-    res.render("index")
-})
 app.post("/", async function (req, res) {
     var newWaiter = req.body.name
     await waitersApp.waiter(newWaiter)
+    res.render("index")
+})
+
+app.get("/", async function (req, res) {
     res.render("index")
 })
 
@@ -43,24 +43,30 @@ app.get("/waiters", async function (req, res) {
     })
 })
 
-app.get("/waiters/:user", async function (req, res) {
-    var user = req.params.user
-    const days = await waitersApp.waitersDays(user)
-    res.render("waiter", {
-        waiter: user,
-        list: days
-    })
-})
-
 app.post("/waiters/:user", async function (req, res) {
     var user = req.params.user
     var days = req.body.day
+
+    if (days === undefined) {
+        req.flash('error', 'select day')
+    } else{
+
+        await waitersApp.selectedDay(user, days)
+    }
+
     const daysList = await waitersApp.waitersDays(user)
-    //console.log(user)
-    await waitersApp.selectedDay(user, days)
     res.render("waiter", {
         waiter: user,
-        list: daysList
+        daysList
+    })
+})
+
+app.get("/waiters/:user", async function (req, res) {
+    var user = req.params.user
+    const daysList = await waitersApp.waitersDays(user)
+    res.render("waiter", {
+        waiter: user,
+        daysList
     })
 })
 

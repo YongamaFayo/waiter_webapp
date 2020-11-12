@@ -1,13 +1,9 @@
 <div class="container">
     <form action="/waiters" method="get">
         <h1>Waiters</h1>
-
         {{#each list}}
-        <a href="/waiters/{{this.waiters}}">
-            <p>{{waiters}}</p>
-        </a>
+        <a href="/waiters/{{this.waiters}}"><p>{{waiters}}</p></a>
         {{/each}}
-
     </form>
     <br>
     <button type="button"><a href="/">back</a></button>

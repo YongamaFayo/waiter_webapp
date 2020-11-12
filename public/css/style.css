@@ -1,28 +1,29 @@
 body{
     background-color: silver;
 }
-
 .container{
     text-align: center;
 }
-
+.tuck {
+    margin: 0.5em;
+}
 table,
 th,
 td {
     border: 1px solid black;
 }
-
 table {
     border-collapse: collapse;
     border-spacing: 0;
-  }
-  
+  } 
   td,
   th {
     padding: 12px 15px;
   }
-
 ul{
+    list-style: none;
+}
+li{
     list-style: none;
 }
 .red{
@@ -33,4 +34,8 @@ ul{
 }
 .orange{
     background-color:orange
+}
+.error{    
+    color: red;
+    text-align: center;
 }

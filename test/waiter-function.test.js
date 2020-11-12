@@ -2,9 +2,7 @@ const assert = require('assert');
 const WaiterFunction = require("../waiter-function");
 
 describe("waiter availability app", function(){
-
     const waiterFunction = WaiterFunction()
-
     const pg = require("pg");
     const Pool = pg.Pool;
 	const connectionString = process.env.DATABASE_URL || 'postgresql://coder:pg123@localhost:5432/availability';
@@ -51,7 +49,7 @@ describe("waiter availability app", function(){
 
         const result = await pool.query("select count(*) from shifts");
         const results = result.rows[0].count
-       // const funResult = await 
+    
         assert.equal(3,results)
     })
 
@@ -84,7 +82,5 @@ describe("waiter availability app", function(){
         const results = result.rows[0].count
 
         assert.equal(results,0)
-
     })
-
 })
