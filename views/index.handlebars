@@ -8,9 +8,20 @@
         <button type="submit">Add</button>
     </form>
     <br>
+    <p class="pass">{{messages.pass}}</p>
+    <p class="error">{{messages.error}}</p>
     <br>
     <div>
         <button><a href="waiters">Waiters</a></button>
         <button><a href="days">Admin</a></button>
     </div>
 </div>
+
+<script>
+    setTimeout(function () {
+        document.querySelector(".pass").innerHTML = ""
+    }, 1000)
+    setTimeout(function () {
+        document.querySelector(".error").innerHTML = ""
+    }, 1000)
+</script>

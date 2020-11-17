@@ -9,6 +9,7 @@ const waitersApp = WaitersApp()
 
 const session = require('express-session')
 const flash = require('express-flash')
+const e = require('express')
 
 app.use(session({
     secret: "<add a secret string here>",
@@ -28,7 +29,14 @@ app.use(bodyParser.json())
 
 app.post("/", async function (req, res) {
     var newWaiter = req.body.name
-    await waitersApp.waiter(newWaiter)
+    if (newWaiter === "") {
+        req.flash('error', 'Enter name')
+    } else if (!(/[a-zA-z]$/.test(newWaiter))) {
+        req.flash('error', 'enter a proper name')
+    } else {
+        var msg = await waitersApp.waiter(newWaiter)
+        req.flash('pass', msg )
+    }
     res.render("index")
 })
 
@@ -48,9 +56,9 @@ app.post("/waiters/:user", async function (req, res) {
     var days = req.body.day
 
     if (days === undefined) {
-        req.flash('error', 'select day')
-    } else{
-
+        req.flash('error', 'select day/s')
+    } else {
+        req.flash('pass', 'day/s selected')
         await waitersApp.selectedDay(user, days)
     }
 
@@ -79,6 +87,11 @@ app.get("/days", async function (req, res) {
 
 app.get("/reset", async function (req, res) {
     await waitersApp.reset()
+    res.render("days")
+})
+
+app.get("/reset_waiters", async function (req, res){
+    await waitersApp.clearWaiters()
     res.render("days")
 })
 

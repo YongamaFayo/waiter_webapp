@@ -6,26 +6,47 @@
         <br>
         <li class="tuck orange">less then 3 waiters on the shift</li><br>
         <li class="tuck red">more than 3 waiters on the shift</li><br><br>
-        <table>
-            <thead>
-                <tr>
-                    {{#each list}}
-                    <th class="{{color}}">{{days}}</th>
-                    {{/each}}
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    {{#each list}}
-                    <td>{{waiters}}</td>
-                    {{/each}}
-                </tr>
-            </tbody>
-        </table>
+
+        <div class="tuck">
+
+            <table>
+                <thead>
+                    <tr>
+                        {{#each list}}
+                        <th class="{{color}}">{{days}}</th>
+                        {{/each}}
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {{#each list}}
+                        <td>{{waiters}}</td>
+                        {{/each}}
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
     <br>
-    </form>
-    <button type="submit">Reset</button>
-    </form>
+    <div>
+        </form action="/reset" method="get">
+        <input type="submit" value="Reset">
+        </form>
+        </form action="/reset_waiters" method="get">
+        {{!-- <input type="submit" value="Reset Waiters"> --}}
+        <input type="button" value="Reset waiters">
+        </form>
+    </div>
+    <div>
     <button><a href="/">back</a></button>
+    </div>
 </div>
+
+<script>
+    setTimeout(function () {
+        document.querySelector(".pass").innerHTML = ""
+    }, 1000)
+    setTimeout(function () {
+        document.querySelector(".error").innerHTML = ""
+    }, 1000)
+</script>

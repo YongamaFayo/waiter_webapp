@@ -4,24 +4,32 @@
     <h3>Select shifts to work</h3>
     <br>
     <form action="/waiters/{{this.waiter}}" method="post">
+    
         {{#each daysList}}
-        <input type="checkbox"  name="day" value="{{this.weekdays}}" {{this.state}}>
+        <input type="checkbox" name="day" value="{{this.weekdays}}" {{this.state}}>
         <label for="all"> {{this.weekdays}}</label>
         {{/each}}
+
         <input type="submit" value="Add Days">
     </form>
-     <div class="error">
-                <h3>
-                    {{messages.error}}
-                </h3>
-            </div>
+    <div class="error">
+        <h3>
+            {{messages.error}}
+        </h3>
+    </div>
+    <div class="pass">
+        <h3>
+            {{messages.pass}}
+        </h3>
+    </div>
     <button><a href="/">home</a></button>
 </div>
-{{!-- <div class="container">
-    <form action="/waiter/{{this.waiter}}" method="get">
-        <h1>Selected Days</h1>
-        {{#each list}}
-        <p>{{weekdays_name}}</p>
-        {{/each}}
-    </form>
-</div> --}}
+
+<script>
+    setTimeout(function () {
+        document.querySelector(".pass").innerHTML = ""
+    }, 1000)
+    setTimeout(function () {
+        document.querySelector(".error").innerHTML = ""
+    }, 1000)
+</script>

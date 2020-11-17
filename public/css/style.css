@@ -6,6 +6,7 @@ body{
 }
 .tuck {
     margin: 0.5em;
+    display: inline-block
 }
 table,
 th,
@@ -37,5 +38,9 @@ li{
 }
 .error{    
     color: red;
+    text-align: center;
+}
+.pass{
+    color: green;
     text-align: center;
 }

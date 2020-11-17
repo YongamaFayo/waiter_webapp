@@ -13,8 +13,9 @@ module.exports = function () {
         const item = await pool.query(`select id from waiters where waiters = $1`, [name])
         if (item.rowCount === 0) {
             await pool.query(`insert into waiters (waiters) values ($1)`, [name]);
+            return 'Waiter added successfully'
         }
-
+        return 'Waiter already in the system'
     }
 
     async function getWaiters() {
@@ -40,11 +41,11 @@ module.exports = function () {
         day.forEach(allDays => {
             lst.forEach(WaiterDays => {
                 if (WaiterDays.weekdays_name === allDays.weekdays) {
-                    allDays.state="checked"
+                    allDays.state = "checked"
                 }
             })
         })
-         return day
+        return day
     }
 
     async function schedule() {
@@ -84,8 +85,15 @@ module.exports = function () {
     }
 
     async function reset() {
-        const clear = await pool.query('delete from shifts');
-        return clear.rows
+        //var clear = 
+        await pool.query(`delete from shifts`);
+       // return clear.rows
+    }
+
+    async function clearWaiters(){
+        await pool.query(`delete from shifts`)
+        var list = await pool.query(`delete from waiters`)
+        return list.rows
     }
 
     return {
@@ -94,7 +102,8 @@ module.exports = function () {
         selectedDay,
         waitersDays,
         schedule,
-        reset
+        reset,
+        clearWaiters
 
     }
 }
