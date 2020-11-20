@@ -84,15 +84,6 @@ module.exports = function waiterRoutes() {
         }
     }
 
-    async function reset(req, res, next) {
-        try {
-            await waitersApp.reset()
-            res.render("days")
-        } catch (err) {
-            next(err)
-        }
-    }
-
     async function reset_waiters(req, res, next) {
         try {
             await waitersApp.clearWaiters()
@@ -110,7 +101,6 @@ waiterList,
 selectDays,
 getUserInfo,
 postDays,
-reset,
 reset_waiters
     }
 }

@@ -2,6 +2,9 @@ const express = require('express')
 const exphbs = require('express-handlebars')
 const bodyParser = require('body-parser')
 
+const Route = require('./routes')
+const routes = Route()
+
 const app = express()
 
 const WaitersApp = require("./waiter-function")
@@ -27,73 +30,19 @@ app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.post("/", async function (req, res) {
-    var newWaiter = req.body.name
-    if (newWaiter === "") {
-        req.flash('error', 'Enter name')
-    } else if (!(/[a-zA-z]$/.test(newWaiter))) {
-        req.flash('error', 'enter a proper name')
-    } else {
-        var msg = await waitersApp.waiter(newWaiter)
-        req.flash('pass', msg )
-    }
-    res.render("index")
-})
+app.post("/", routes.newWaiter)
 
-app.get("/", async function (req, res) {
-    res.render("index")
-})
+app.get("/", routes.home)
 
-app.get("/waiters", async function (req, res) {
-    const waiters = await waitersApp.getWaiters()
-    res.render("waiters", {
-        list: waiters
-    })
-})
+app.get("/waiters", routes.waiterList)
 
-app.post("/waiters/:user", async function (req, res) {
-    var user = req.params.user
-    var days = req.body.day
+app.post("/waiters/:user", routes.selectDays)
 
-    if (days === undefined) {
-        req.flash('error', 'select day/s')
-    } else {
-        req.flash('pass', 'day/s selected')
-        await waitersApp.selectedDay(user, days)
-    }
+app.get("/waiters/:user", routes.getUserInfo)
 
-    const daysList = await waitersApp.waitersDays(user)
-    res.render("waiter", {
-        waiter: user,
-        daysList
-    })
-})
+app.get("/days", routes.postDays)
 
-app.get("/waiters/:user", async function (req, res) {
-    var user = req.params.user
-    const daysList = await waitersApp.waitersDays(user)
-    res.render("waiter", {
-        waiter: user,
-        daysList
-    })
-})
-
-app.get("/days", async function (req, res) {
-    var days = await waitersApp.schedule()
-    res.render("days", {
-        list: days,
-    })
-})
-
-app.get("/reset", async function (req, res) {
-    await waitersApp.reset()
-    res.render("days")
-})
-
-app.get("/reset_waiters", async function (req, res){
-    await waitersApp.clearWaiters()
-    res.render("days")
-})
+app.get("/reset", routes.reset_waiters)
 
 const PORT = process.env.PORT || 3091;
 

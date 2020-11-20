@@ -85,9 +85,8 @@ module.exports = function () {
     }
 
     async function reset() {
-        //var clear = 
-        await pool.query(`delete from shifts`);
-       // return clear.rows
+        var clear =  await pool.query(`delete from shifts`);
+       return clear.rows
     }
 
     async function clearWaiters(){
