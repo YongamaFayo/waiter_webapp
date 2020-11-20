@@ -7,9 +7,6 @@ const routes = Route()
 
 const app = express()
 
-const WaitersApp = require("./waiter-function")
-const waitersApp = WaitersApp()
-
 const session = require('express-session')
 const flash = require('express-flash')
 const e = require('express')
@@ -30,11 +27,7 @@ app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
-app.post("/", routes.newWaiter)
-
 app.get("/", routes.home)
-
-app.get("/waiters", routes.waiterList)
 
 app.post("/waiters/:user", routes.selectDays)
 

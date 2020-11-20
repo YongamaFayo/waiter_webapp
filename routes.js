@@ -2,37 +2,10 @@ const WaitersApp = require("./waiter-function")
 const waitersApp = WaitersApp()
 
 module.exports = function waiterRoutes() {
-    async function newWaiter(req, res, next) {
-        var newWaiter = req.body.name
-        try {
-            if (newWaiter === "") {
-                req.flash('error', 'Enter name')
-            } else if (!(/[a-zA-z]$/.test(newWaiter))) {
-                req.flash('error', 'enter a proper name')
-            } else {
-                var msg = await waitersApp.waiter(newWaiter)
-                req.flash('pass', msg)
-            }
-            res.render("index")
-        } catch (err) {
-            next(err)
-        }
-    }
 
     async function home(req, res, next) {
         try {
             res.render("index")
-        } catch (err) {
-            next(err)
-        }
-    }
-
-    async function waiterList(req, res, next) {
-        try {
-            const waiters = await waitersApp.getWaiters()
-            res.render("waiters", {
-                list: waiters
-            })
         } catch (err) {
             next(err)
         }
@@ -46,7 +19,7 @@ module.exports = function waiterRoutes() {
             if (days === undefined) {
                 req.flash('error', 'select day')
             } else {
-
+                req.flash('pass', "days added")
                 await waitersApp.selectedDay(user, days)
             }
 
@@ -95,9 +68,7 @@ module.exports = function waiterRoutes() {
 
 
     return {
-newWaiter,
 home,
-waiterList,
 selectDays,
 getUserInfo,
 postDays,

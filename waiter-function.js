@@ -13,9 +13,9 @@ module.exports = function () {
         const item = await pool.query(`select id from waiters where waiters = $1`, [name])
         if (item.rowCount === 0) {
             await pool.query(`insert into waiters (waiters) values ($1)`, [name]);
-            return 'Waiter added successfully'
+            //return 'Waiter added successfully'
         }
-        return 'Waiter already in the system'
+        //return 'Waiter already in the system'
     }
 
     async function getWaiters() {
@@ -24,6 +24,7 @@ module.exports = function () {
     }
 
     async function selectedDay(x, y) {
+        await waiter(x)
         await pool.query(`delete from shifts where waiters_name =$1`, [x])
         for (let i = 0; i < y.length; i++) {
             let day = y[i]
