@@ -63,7 +63,7 @@ module.exports = function () {
             let names = []
             let colors = ""
             for (var j = 0; j < lists.rows.length; j++) {
-                name = lists.rows[j].waiters_name
+                name = lists.rows[j]
                 //console.log(name)
                 names.push(name)
             }
@@ -78,7 +78,7 @@ module.exports = function () {
 
             list.push({
                 days: dei,
-                waiters: names,
+                names,
                 color: colors,
             })
         }

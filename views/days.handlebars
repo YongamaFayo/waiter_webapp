@@ -13,18 +13,23 @@
                 <thead>
                     <tr>
                         {{#each list}}
-                        <th class="{{color}}">{{days}}</th>
+                        <th class="{{color}}">{{this.days}}</th>
                         {{/each}}
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         {{#each list}}
-                        <td>{{waiters}}</td>
+                        <td>
+                            {{#each names}}
+                            <li>{{this.waiters_name}}</li>
+                            {{/each}}
+                        </td>
                         {{/each}}
                     </tr>
                 </tbody>
             </table>
+
         </div>
     </div>
     <br>
@@ -35,7 +40,7 @@
     </div><br>
     <div class="container">
         <a href="/reset">
-        <button type="button" >Reset</button>
+            <button type="button">Reset</button>
         </a>
 
     </div><br>
