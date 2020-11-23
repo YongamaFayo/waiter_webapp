@@ -62,13 +62,13 @@ describe("waiter availability app", function () {
         const results = await waiterFunction.schedule()
 
         assert.deepEqual(results, [
-            {color: 'orange',days: 'sunday',waiters: ['charles']},
-            {color: 'orange',days: 'monday',waiters: ['charl']},
-            {color: 'orange',days: 'tuesday',waiters: []},
-            {color: 'orange',days: 'wednsday',waiters: []},
-            {color: 'orange',days: 'thursday',waiters: []},
-            {color: 'orange',days: 'friday',waiters: []},
-            {color: 'orange',days: 'saturday',waiters: []}
+            {"color": 'orange',days: 'sunday',waiters: [{"waiters_name": "charles"}]},
+            {"color": 'orange',days: 'monday',waiters: [{"waiters_name": "charl"}]},
+            {"color": 'orange',days: 'tuesday',waiters: []},
+            {"color": 'orange',days: 'wednsday',waiters: []},
+            {"color": 'orange',days: 'thursday',waiters: []},
+            {"color": 'orange',days: 'friday',waiters: []},
+            {"color": 'orange',days: 'saturday',waiters: []}
         ])
     })
 

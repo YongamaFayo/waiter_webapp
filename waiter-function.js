@@ -78,7 +78,7 @@ module.exports = function () {
 
             list.push({
                 days: dei,
-                names,
+                waiters:names,
                 color: colors,
             })
         }
